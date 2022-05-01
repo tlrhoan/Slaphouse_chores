@@ -63,15 +63,23 @@ def send_chores(filename, remind=False):
 
     for housemate in list(slapHouseResidents):
         msg = EmailMessage()
-        content = f'Hi {housemate}, this week\'s chore list:\n{prettyList}'
+        msg2 = EmailMessage()
 
         # Set email message content and send to housemate
+        content = f'Hi {housemate}, your chore for the week: {slapHouseResidents[housemate]}'
         msg.set_content(content)
-        msg['Subject'] = 'SLAP HOUSE 4.0 CHORES ALERT'
+        msg['Subject'] = 'SLAP HOUSE CHORES ALERT'
         msg['From'] = "slaphouse4.0@gmail.com"
         msg['To'] = emails[housemate]
 
         server.send_message(msg)
+
+        # Set message content to full chore list for second text message
+        msg2_content = f'**** Chore List **** {prettyList}'
+        msg2.set_content(msg2_content)
+        msg2['From'] = "slaphouse4.0@gmail.com"
+        msg2['To'] = emails[housemate]
+        server.send_message(msg2)
 
     server.quit()
 
